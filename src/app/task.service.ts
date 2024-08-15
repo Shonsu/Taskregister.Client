@@ -16,7 +16,7 @@ export class TasksService {
 
   async getAll() {
     let email = this.cookieService.get("user");
-    return fetch(`${this.URL}/api/${email}/task`).then<Task[] | ListFetchingError>(
+    return fetch(`${this.URL}/api/${email}/todos`).then<Task[] | ListFetchingError>(
       (response) => {
         if (response.ok) {
           return response.json();
@@ -29,7 +29,7 @@ export class TasksService {
   async getAllWithSearch(priority: string, taskType: string, from: string, to: string) {
     let email = this.cookieService.get("user");
     return fetch(
-      `${this.URL}/api/${email}/task?priority=${priority}&taskType=${taskType}&from=${from}&to=${to}`
+      `${this.URL}/api/${email}/todos?priority=${priority}&taskType=${taskType}&from=${from}&to=${to}`
     ).then<Task[] | ListFetchingError>((response) => {
       if (response.ok) {
         let respo = response.json();
@@ -42,7 +42,7 @@ export class TasksService {
 
   async getById(taskId: number) {
     let email = this.cookieService.get("user");
-    return fetch(`${this.URL}/api/${email}/task/${taskId}`).then<
+    return fetch(`${this.URL}/api/${email}/todos/${taskId}`).then<
       Task | ListFetchingError
     >((response) => {
       if (response.ok) {
@@ -54,7 +54,7 @@ export class TasksService {
 
   async add(task: CreateTaskDTO) {
     let email = this.cookieService.get("user");
-    return fetch(`${this.URL}/api/${email}/task`, {
+    return fetch(`${this.URL}/api/${email}/todos`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -70,7 +70,7 @@ export class TasksService {
 
   async update(taskId: number, task: TaskUpdateDto) {
     let email = this.cookieService.get("user");
-    return fetch(`${this.URL}/api/${email}/task/${taskId}`, {
+    return fetch(`${this.URL}/api/${email}/todos/${taskId}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -89,7 +89,7 @@ export class TasksService {
 
   async delete(taskId: number) {
     let email = this.cookieService.get("user");
-    return fetch(`${this.URL}/api/${email}/task/${taskId}`, {
+    return fetch(`${this.URL}/api/${email}/todos/${taskId}`, {
       method: "DELETE",
     }).then<Error | null>((response) => {
       if (response.ok) {
@@ -104,7 +104,7 @@ export class TasksService {
 
   async endDateExtend(taskId: number, days: number, explanation: string) {
     let email = this.cookieService.get("user");
-    return fetch(`${this.URL}/api/${email}/task/${taskId}/endDate`, {
+    return fetch(`${this.URL}/api/${email}/todos/${taskId}/endDate`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
@@ -124,7 +124,7 @@ export class TasksService {
   async changeState(taskId: number, state: string) {
     let email = this.cookieService.get("user");
     console.log(taskId, state);
-    return fetch(`${this.URL}/api/${email}/task/${taskId}/taskState?newState=${state}`, {
+    return fetch(`${this.URL}/api/${email}/todos/${taskId}/taskState?newState=${state}`, {
       method: "PATCH",
     }).then<number | Error>((response) => {
       if (response.ok) {

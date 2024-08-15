@@ -90,9 +90,9 @@ export class TaskStateUpdateComponent {
   endDateAfterChange: Date = new Date();
 
   states: State[] = [
-    { id: 0, name: "NEW" },
-    { id: 1, name: "COMPLETED" },
-    { id: 2, name: "RESUMED" },
+    { id: 0, name: "New" },
+    { id: 1, name: "Completed" },
+    { id: 2, name: "Resumed" },
   ];
   async ngOnInit() {
     this.taskForm = this.formBuilder.group({
@@ -143,25 +143,29 @@ export class TaskStateUpdateComponent {
   }
 
   canChange(state: string): boolean | undefined{
-    if (this.taskState === "NEW" && this.taskForm.get("state")?.value === "COMPLETED") {
-      console.log("true" + this.taskState + " " + this.taskForm.get("state")?.value);
+    if (this.taskState === "New" && this.taskForm.get("state")?.value === "Completed") {
+    //   console.log("true" + this.taskState + " " + this.taskForm.get("state")?.value);
       return true;
     }
     if (
-      this.taskState === "COMPLETED" &&
-      this.taskForm.get("state")?.value === "RESUMED"
+      this.taskState === "Completed" &&
+      this.taskForm.get("state")?.value === "Resumed"
     ) {
-      console.log("true" + this.taskState + " " + this.taskForm.get("state")?.value);
+    //   console.log(
+    //     "true" + this.taskState + " " + this.taskForm.get("state")?.value
+    //   );
       return true;
     }
     if (
-      this.taskState === "RESUMED" &&
-      this.taskForm.get("state")?.value === "COMPLETED"
+      this.taskState === "Resumed" &&
+      this.taskForm.get("state")?.value === "Completed"
     ) {
-      console.log("true" + this.taskState + " " + this.taskForm.get("state")?.value);
+    //   console.log(
+    //     "true" + this.taskState + " " + this.taskForm.get("state")?.value
+    //   );
       return true;
     }
-    console.log("false" + this.taskState + " " + this.taskForm.get("state")?.value);
+    // console.log("false" + this.taskState + " " + this.taskForm.get("state")?.value);
     return false;
   }
 }

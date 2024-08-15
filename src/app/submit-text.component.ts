@@ -74,13 +74,13 @@ export class SubmitTextComponent implements OnInit {
   @Input() parentForm!: FormGroup;
 
   types = [
-    { id: 1, name: "TYPE_1" },
-    { id: 2, name: "TYPE_2" },
-    { id: 3, name: "TYPE_3" },
+    { id: 1, name: "Type1" },
+    { id: 2, name: "Type2" },
+    { id: 3, name: "Type3" },
   ];
   priorities = [
-    { id: 1, name: "LOW" },
-    { id: 2, name: "HIGH" },
+    { id: 1, name: "Low" },
+    { id: 2, name: "High" },
   ];
 
   constructor() {}
