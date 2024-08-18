@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
 import { FormGroup, ReactiveFormsModule } from "@angular/forms";
-import { CreateTaskDTO } from "./CreateTaskDTO";
+import { CreateTaskDTO } from "./model/CreateTaskDTO";
 import { NgIf } from "@angular/common";
 import { ButtonModule } from "primeng/button";
 import { DropdownModule } from "primeng/dropdown";

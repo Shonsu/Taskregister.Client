@@ -1,8 +1,8 @@
 import { Component, inject } from "@angular/core";
 import { Router, RouterOutlet } from "@angular/router";
-import { UserService } from "./user.service";
+import { UserService } from "./user/user.service";
 import { NgFor } from "@angular/common";
-import { User } from "./user";
+import { User } from "./user/user";
 import { CookieService } from "ngx-cookie-service";
 import { ChangeUserService } from "./change-user.service";
 

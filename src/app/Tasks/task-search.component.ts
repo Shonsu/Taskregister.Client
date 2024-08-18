@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, ReactiveFormsModule } from "@angular/forms";
 import { ButtonModule } from "primeng/button";
 import { CalendarModule } from "primeng/calendar";
 import { DropdownModule } from "primeng/dropdown";
-import { QuerySearchParamters } from "./QuerySearchParamters";
+import { QuerySearchParamters } from "../QuerySearchParamters";
 
 @Component({
   selector: "app-task-search",

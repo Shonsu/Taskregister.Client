@@ -4,7 +4,7 @@ import { ButtonModule } from "primeng/button";
 import { ConfirmDialogModule } from "primeng/confirmdialog";
 import { DialogService } from "primeng/dynamicdialog";
 import { TableModule } from "primeng/table";
-import { TaskSearchComponent } from "./task-search.component";
+import { TaskSearchComponent } from "./Tasks/task-search.component";
 
 @Component({
   selector: "app-notfound-page",

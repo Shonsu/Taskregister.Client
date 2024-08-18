@@ -1,19 +1,16 @@
-import { CommonModule, NgIf } from "@angular/common";
 import { Component, inject } from "@angular/core";
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from "@angular/forms";
 import { ActivatedRoute, Router, RouterLink } from "@angular/router";
 import { ButtonModule } from "primeng/button";
-import { DropdownModule } from "primeng/dropdown";
-import { InputTextareaModule } from "primeng/inputtextarea";
-import { TasksService } from "./task.service";
-import { Task } from "./Task";
+import { TasksService } from "./data-access/task.service";
+import { Task } from "./model/Task";
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from "@angular/forms";
 import { InputTextModule } from "primeng/inputtext";
-import { identifierName } from "@angular/compiler";
-
-type State = { id: number; name: string };
+import { InputTextareaModule } from "primeng/inputtextarea";
+import { DropdownModule } from "primeng/dropdown";
+import { CommonModule } from "@angular/common";
 
 @Component({
-  selector: "app-task-state-update",
+  selector: "app-task-enddate-update",
   standalone: true,
   imports: [
     RouterLink,
@@ -23,10 +20,9 @@ type State = { id: number; name: string };
     InputTextareaModule,
     DropdownModule,
     CommonModule,
-    NgIf,
   ],
   template: `
-    <h2 class="flex flex-row justify-content-center p-1">Change Task state!</h2>
+    <h2 class="flex flex-row justify-content-center p-1">Change EndDate!</h2>
     <form
       [formGroup]="taskForm"
       class="flex flex-row gap-2 justify-content-center p-2"
@@ -49,60 +45,84 @@ type State = { id: number; name: string };
         </div>
         <div class="flex flex-row gap-2">
           <div class="flex flex-column gap-1">
-            <label>State</label>
+            <label>Extend by</label>
             <p-dropdown
-              [options]="states"
+              #extByDays
+              (onChange)="onChange(extByDays.value)"
+              [options]="extendDays"
               optionLabel="name"
               optionValue="name"
-              formControlName="state"
-              [class.invalid]="canChange('priority')"
+              formControlName="extendDays"
             />
-            <small *ngIf="!canChange('state')"
-              >You can't change task state {{ taskState }} to
-              {{ this.taskForm.get("state")?.value }}</small
-            >
           </div>
-
+          <div class="flex flex-column gap-1">
+            <label>Explanation</label>
+            <textarea
+              pInputTextarea
+              formControlName="explanation"
+              [class.invalid]="isValid('explanation')"
+            ></textarea>
+            <small *ngIf="isValid('explanation')">Explanation field is required.</small>
+          </div>
           <!-- <input #task (keyup.enter)="submitText.emit(task.value); task.value = ''" /> -->
           <div class="flex flex-column gap-1 justify-content-center">
-            <p-button type="submit" class="p-3" [disabled]="!canChange('state')"
-              >Save</p-button
-            >
+            <p-button type="submit" class="p-3">Save</p-button>
           </div>
         </div>
       </div>
       <!-- [disabled]="taskForm.invalid" -->
       <!-- (click)="submitText.emit(task.value); task.value = ''" -->
     </form>
+    <p class="flex justify-content-center p-1">
+      Current end date: {{ endDate | date : "yyyy-MM-dd HH:mm" }}
+    </p>
+    <p class="flex justify-content-center p-1">
+      After change: {{ endDateAfterChange | date : "yyyy-MM-dd HH:mm" }}
+    </p>
     <div class="flex justify-content-center p-2">
       <p-button routerLink="/" label="Back to task list" size="small" />
     </div>
   `,
-  styles: ``,
+  styles: `     
+    .invalid {
+        border: 1px solid red;
+      }`,
 })
-export class TaskStateUpdateComponent {
+export class TaskEnddateUpdateComponent {
   taskService = inject(TasksService);
   route = inject(ActivatedRoute);
   formBuilder = inject(FormBuilder);
   router = inject(Router);
   taskForm!: FormGroup;
-  taskState!: string;
+  endDate!: Date;
   endDateAfterChange: Date = new Date();
-
-  states: State[] = [
-    { id: 0, name: "New" },
-    { id: 1, name: "Completed" },
-    { id: 2, name: "Resumed" },
+  extendDays = [
+    { id: 1, name: 7 },
+    { id: 2, name: 14 },
+    { id: 3, name: 30 },
   ];
+
+  onChange(days: number) {
+    this.endDateAfterChange = this.addDays(days);
+  }
+
+  private addDays(days: number): Date {
+    let dateNew = new Date(this.endDate);
+    dateNew.setDate(dateNew.getDate() + days);
+    return dateNew;
+  }
+
   async ngOnInit() {
     this.taskForm = this.formBuilder.group({
       type: [{ value: "", disabled: true }, Validators.required],
       priority: [{ value: "", disabled: true }, Validators.required],
       description: { value: "", disabled: true },
       explanation: ["", Validators.required],
-      state: [""],
+      extendDays: [this.extendDays[0].name],
     });
     await this.getTask();
+    this.endDateAfterChange = this.addDays(this.extendDays[0].name);
+    console.log("Description:", this.taskForm.get("description")?.value);
   }
 
   async getTask() {
@@ -110,62 +130,36 @@ export class TaskStateUpdateComponent {
     await this.taskService.getById(id).then((response) => {
       if ("id" in response) {
         let t = response as Task;
-        // console.log(t.state);
-        // this.states.push(
-        //   t.state === "NEW" ? { id: 1, name: "COMPLETED" } : { id: 1, name: "RESUMED" }
-        // );
-        // console.log(this.states[0]);
-        this.taskState = t.state;
+        this.endDate = t.endDate;
         this.taskForm.patchValue({
           description: t.description,
           type: t.type,
           priority: t.priority,
-          state: t.state,
         });
       }
     });
   }
 
+  isValid(property: string): boolean | undefined {
+    return this.taskForm.get(property)?.invalid; //|| && this.taskForm.get(property)?.dirty || this.taskForm.get(property)?.touched
+  }
   onSubmit() {
     let id = Number(this.route.snapshot.params["id"]);
     this.taskService
-      .changeState(id, this.taskForm.get("state")?.value)
+      .endDateExtend(
+        id,
+        this.taskForm.get("extendDays")?.value,
+        this.taskForm.get("explanation")?.value
+      )
       .then((response) => {
         if (Number.isInteger(response)) {
           //   let result = this.getTask(response as number);
-          // console.log("Task added with ID:", response);
+          // console.log("Tasks added with ID:", response);
           this.router.navigate(["/"]);
-          alert("Task state with ID:" + response + " has chaged.");
+          alert("Tasks updated with ID:" + response);
         } else {
           alert(response);
         }
       });
-  }
-
-  canChange(state: string): boolean | undefined{
-    if (this.taskState === "New" && this.taskForm.get("state")?.value === "Completed") {
-    //   console.log("true" + this.taskState + " " + this.taskForm.get("state")?.value);
-      return true;
-    }
-    if (
-      this.taskState === "Completed" &&
-      this.taskForm.get("state")?.value === "Resumed"
-    ) {
-    //   console.log(
-    //     "true" + this.taskState + " " + this.taskForm.get("state")?.value
-    //   );
-      return true;
-    }
-    if (
-      this.taskState === "Resumed" &&
-      this.taskForm.get("state")?.value === "Completed"
-    ) {
-    //   console.log(
-    //     "true" + this.taskState + " " + this.taskForm.get("state")?.value
-    //   );
-      return true;
-    }
-    // console.log("false" + this.taskState + " " + this.taskForm.get("state")?.value);
-    return false;
   }
 }

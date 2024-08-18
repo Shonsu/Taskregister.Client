@@ -1,9 +1,9 @@
 import { Component } from "@angular/core";
 import { ActivatedRoute, Router, RouterLink } from "@angular/router";
-import { TasksService } from "./task.service";
+import { TasksService } from "./data-access/task.service";
 import { SubmitTextComponent } from "./submit-text.component";
-import { TaskUpdateDto } from "./TaskUpdateDto";
-import { Task } from "./Task";
+import { TaskUpdateDto } from "./model/TaskUpdateDto";
+import { Task } from "./model/Task";
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from "@angular/forms";
 import { NgIf } from "@angular/common";
 import { ButtonModule } from "primeng/button";
@@ -65,7 +65,7 @@ export class TaskUpdateComponent {
     this.taskService.update(id, task).then((response) => {
       if (response == null) {
         this.router.navigate(["/tasks/update", id]);
-        alert("Task updated with ID:" + id);
+        alert("Tasks updated with ID:" + id);
       } else {
         alert(response);
       }

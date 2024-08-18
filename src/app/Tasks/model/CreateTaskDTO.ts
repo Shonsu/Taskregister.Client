@@ -3,4 +3,5 @@ export type CreateTaskDTO = {
   type: string;
   priority: string;
   description: string;
+  TagIds: Array<number>
 };

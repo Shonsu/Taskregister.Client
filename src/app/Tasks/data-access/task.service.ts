@@ -1,10 +1,10 @@
 import { inject, Injectable } from "@angular/core";
-import { CreateTaskDTO } from "./CreateTaskDTO";
-import { Task } from "./Task";
-import { ListFetchingError } from "./list-state.type";
-import { TaskUpdateDto } from "./TaskUpdateDto";
+import { CreateTaskDTO } from "../model/CreateTaskDTO";
+import { Task } from "../model/Task";
+import { ListFetchingError } from "../../utils/list-state.type";
+import { TaskUpdateDto } from "../model/TaskUpdateDto";
 import { CookieService } from "ngx-cookie-service";
-import { environment } from "../environments/environment";
+import { environment } from "../../../environments/environment";
 
 @Injectable({
   providedIn: "root",

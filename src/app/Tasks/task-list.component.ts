@@ -1,5 +1,5 @@
 import { Component, EventEmitter, inject, Input, Output } from "@angular/core";
-import { Task } from "./Task";
+import { Task } from "./model/Task";
 import { CommonModule, NgFor } from "@angular/common";
 import { ButtonModule } from "primeng/button";
 import { TableModule } from "primeng/table";
@@ -7,9 +7,9 @@ import { ConfirmDialogModule } from "primeng/confirmdialog";
 import { ConfirmationService } from "primeng/api";
 import { RouterLink } from "@angular/router";
 import { TaskSearchComponent } from "./task-search.component";
-import { QuerySearchParamters } from "./QuerySearchParamters";
-import { TasksService } from "./task.service";
-import { ComponentListState } from "./list-state.type";
+import { QuerySearchParamters } from "../QuerySearchParamters";
+import { TasksService } from "./data-access/task.service";
+import { ComponentListState } from "../utils/list-state.type";
 
 @Component({
   selector: "app-task-list",
@@ -54,15 +54,15 @@ import { ComponentListState } from "./list-state.type";
                 routerLink="/tasks/update/{{ task.id }}"
                 label="Edit"
                 size="small"
-                [disabled]="task.state === 'COMPLETED'"
-                [class.disabled]="task.state === 'COMPLETED' ? true : null"
+                [disabled]="task.state === 'Completed'"
+                [class.disabled]="task.state === 'Completed' ? true : null"
               />
               <p-button
                 routerLink="/tasks/update/{{ task.id }}/enddate"
                 label="Extend EndDate"
                 size="small"
-                [disabled]="task.state === 'COMPLETED'"
-                [class.disabled]="task.state === 'COMPLETED' ? true : null"
+                [disabled]="task.state === 'Completed'"
+                [class.disabled]="task.state === 'Completed' ? true : null"
               />
               <p-button
                 routerLink="/tasks/update/{{ task.id }}/state"
@@ -71,10 +71,10 @@ import { ComponentListState } from "./list-state.type";
               />
               <p-button
                 label="Delete"
-                (click)="task.state === 'COMPLETED' ? '' : deleteTask(task.id)"
+                (click)="task.state === 'Completed' ? '' : deleteTask(task.id)"
                 severity="danger"
                 size="small"
-                [disabled]="task.state === 'COMPLETED'"
+                [disabled]="task.state === 'Completed'"
               />
             </td>
           </tr>
@@ -130,8 +130,8 @@ export class TaskListComponent {
     console.log(query.dateTo);
     let priority = query.priority === null ? "" : query.priority;
     let type = query.type === null ? "" : query.type;
-    let from = query.dateFrom instanceof Date ? query.dateFrom.toISOString() : "";
-    let to = query.dateTo instanceof Date ? query.dateTo.toISOString() : "";
+    let from = query.dateFrom.toISOString();
+    let to = query.dateTo.toISOString();
     console.log("from: " + from);
     console.log("to: " + to);
     await this.tasksService

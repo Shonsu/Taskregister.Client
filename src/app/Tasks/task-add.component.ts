@@ -1,8 +1,8 @@
 import { Component, inject } from "@angular/core";
 import { SubmitTextComponent } from "./submit-text.component";
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from "@angular/forms";
-import { CreateTaskDTO } from "./CreateTaskDTO";
-import { TasksService } from "./task.service";
+import { CreateTaskDTO } from "./model/CreateTaskDTO";
+import { TasksService } from "./data-access/task.service";
 import { Router, RouterLink } from "@angular/router";
 import { ButtonModule } from "primeng/button";
 
@@ -16,7 +16,7 @@ import { ButtonModule } from "primeng/button";
       <app-submit-text (submitText)="addTask($event)" [parentForm]="taskForm" />
     </form>
     <div class="flex justify-content-center p-4">
-      <p-button routerLink="/" label="Back to task list" size="small" />
+      <p-button routerLink="/" label="Back to task list" size="small" />    
     </div>
   `,
   styles: ``,
@@ -39,10 +39,10 @@ export class TaskAddComponent {
     this.tasksService.add(task).then((response) => {
       if (Number.isInteger(response)) {
         //   let result = this.getTask(response as number);
-        // console.log("Task added with ID:", response);
+        // console.log("Tasks added with ID:", response);
         this.router.navigate(["/"]);
         // this.router.navigate(["/tasks/update", response]);
-        alert("Task added with ID:" + response);
+        alert("Tasks added with ID:" + response);
       } else {
         alert(response);
       }

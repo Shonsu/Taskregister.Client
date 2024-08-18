@@ -1,14 +1,14 @@
 import { Component, OnChanges, OnDestroy, OnInit, inject } from "@angular/core";
 import { TaskListComponent } from "./task-list.component";
-import { Task } from "./Task";
+import { Task } from "./model/Task";
 import { NgIf } from "@angular/common";
 import { SubmitTextComponent } from "./submit-text.component";
-import { TasksService } from "./task.service";
-import { ComponentListState } from "./list-state.type";
+import { TasksService } from "./data-access/task.service";
+import { ComponentListState } from "../utils/list-state.type";
 import { ReactiveFormsModule } from "@angular/forms";
 import { ButtonModule } from "primeng/button";
 import { RouterLink } from "@angular/router";
-import { ChangeUserService } from "./change-user.service";
+import { ChangeUserService } from "../change-user.service";
 import { Subscription } from "rxjs";
 
 @Component({

@@ -1,9 +1,9 @@
 import { Routes } from "@angular/router";
-import { TaskListPageComponent } from "./task-list.page.component";
-import { TaskUpdateComponent } from "./task-update.component";
-import { TaskAddComponent } from "./task-add.component";
-import { TaskEnddateUpdateComponent } from "./task-enddate-update.component";
-import { TaskStateUpdateComponent } from "./task-state-update.component";
+import { TaskListPageComponent } from "./Tasks/task-list.page.component";
+import { TaskUpdateComponent } from "./Tasks/task-update.component";
+import { TaskAddComponent } from "./Tasks/task-add.component";
+import { TaskEnddateUpdateComponent } from "./Tasks/task-enddate-update.component";
+import { TaskStateUpdateComponent } from "./Tasks/task-state-update.component";
 import { NotfoundPageComponent } from "./notfound.page.component";
 
 export const routes: Routes = [
