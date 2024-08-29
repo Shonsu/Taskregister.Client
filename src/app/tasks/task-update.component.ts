@@ -65,7 +65,7 @@ export class TaskUpdateComponent {
     this.taskService.update(id, task).then((response) => {
       if (response == null) {
         this.router.navigate(["/tasks/update", id]);
-        alert("Tasks updated with ID:" + id);
+        alert("tasks updated with ID:" + id);
       } else {
         alert(response);
       }

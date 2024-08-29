@@ -39,10 +39,10 @@ export class TaskAddComponent {
     this.tasksService.add(task).then((response) => {
       if (Number.isInteger(response)) {
         //   let result = this.getTask(response as number);
-        // console.log("Tasks added with ID:", response);
+        // console.log("tasks added with ID:", response);
         this.router.navigate(["/"]);
         // this.router.navigate(["/tasks/update", response]);
-        alert("Tasks added with ID:" + response);
+        alert("tasks added with ID:" + response);
       } else {
         alert(response);
       }

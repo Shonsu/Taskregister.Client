@@ -1,4 +1,4 @@
-import { Task } from "../Tasks/model/Task";
+import { Task } from "../tasks/model/Task";
 
 export type ListFetchingError = { status: number; message: string };
 

@@ -1,0 +1,14 @@
+fa-input {
+    padding: 2px;
+    position: relative;
+    border: 2px solid grey;
+}
+
+fa-input.focus {
+    border: 2px solid blue;
+}
+
+fa-input input {
+    border: none;
+    outline: none;
+}

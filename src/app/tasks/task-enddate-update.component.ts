@@ -154,9 +154,9 @@ export class TaskEnddateUpdateComponent {
       .then((response) => {
         if (Number.isInteger(response)) {
           //   let result = this.getTask(response as number);
-          // console.log("Tasks added with ID:", response);
+          // console.log("tasks added with ID:", response);
           this.router.navigate(["/"]);
-          alert("Tasks updated with ID:" + response);
+          alert("tasks updated with ID:" + response);
         } else {
           alert(response);
         }

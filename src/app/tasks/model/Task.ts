@@ -1,3 +1,5 @@
+import {Tag} from "./Tag";
+
 export type Task = {
   id: number;
   type: string;
@@ -7,4 +9,5 @@ export type Task = {
   state: string;
   description: string;
   done: boolean;
+  tags: Array<Tag>
 };

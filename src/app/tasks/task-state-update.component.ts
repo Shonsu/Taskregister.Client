@@ -133,9 +133,9 @@ export class TaskStateUpdateComponent {
       .then((response) => {
         if (Number.isInteger(response)) {
           //   let result = this.getTask(response as number);
-          // console.log("Tasks added with ID:", response);
+          // console.log("tasks added with ID:", response);
           this.router.navigate(["/"]);
-          alert("Tasks state with ID:" + response + " has chaged.");
+          alert("tasks state with ID:" + response + " has chaged.");
         } else {
           alert(response);
         }
